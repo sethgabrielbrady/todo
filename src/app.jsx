@@ -76,8 +76,9 @@ class TodoList extends React.Component {
   }
 
   render(){
+    
     const todoList = this.state.todos.map((todo) =>
-      <Todo key={todo.id.toString()} id={todo.id} text={todo.text} done={todo.done} />
+      <Todo key={todo.id} id={todo.id} text={todo.text} done={todo.done} />
     );
 
     return <React.Fragment>

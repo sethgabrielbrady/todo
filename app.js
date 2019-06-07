@@ -106,8 +106,9 @@ var TodoList = function (_React$Component2) {
   }, {
     key: "render",
     value: function render() {
+
       var todoList = this.state.todos.map(function (todo) {
-        return React.createElement(Todo, { key: todo.id.toString(), id: todo.id, text: todo.text, done: todo.done });
+        return React.createElement(Todo, { key: todo.id, id: todo.id, text: todo.text, done: todo.done });
       });
 
       return React.createElement(
