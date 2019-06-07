@@ -9,35 +9,126 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Todo = function (_React$Component) {
   _inherits(Todo, _React$Component);
 
+  function Todo(props) {
+    _classCallCheck(this, Todo);
+
+    var _this = _possibleConstructorReturn(this, (Todo.__proto__ || Object.getPrototypeOf(Todo)).call(this, props));
+
+    _this.state = { done: props.done,
+      text: props.text
+    };
+    _this.handleClick = _this.handleClick.bind(_this);
+    _this.handleChange = _this.handleChange.bind(_this);
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    return _this;
+  }
+
   _createClass(Todo, [{
+    key: "handleClick",
+    value: function handleClick(event) {
+      this.setState(function (state) {
+        return {
+          done: !state.done
+        };
+      }, function (event) {
+        this.handleSubmit(event);
+      });
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange(event) {
+      var text = event.target.value;
+
+      this.setState(function (state) {
+        return {
+          text: text
+        };
+      });
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(event) {
+      console.log("submit");
+    }
+  }, {
     key: "render",
     value: function render() {
-
       return React.createElement(
         "div",
         { className: "todo" },
         React.createElement(
           "span",
           null,
-          React.createElement("input", { type: "checkbox", checked: this.state.done }),
-          React.createElement("input", { type: "text", value: this.state.text })
+          React.createElement("input", { type: "checkbox", checked: this.state.done, onClick: this.handleClick }),
+          React.createElement("input", { type: "text",
+            onChange: this.handleChange,
+            className: this.state.done ? 'done' : 'not-done',
+            onBlur: this.handleSubmit,
+            value: this.state.text })
         )
       );
     }
   }]);
 
-  function Todo(props) {
-    _classCallCheck(this, Todo);
-
-    var _this = _possibleConstructorReturn(this, (Todo.__proto__ || Object.getPrototypeOf(Todo)).call(this, props));
-
-    _this.state = { done: _this.props.done == "true" && props.done,
-      text: props.text
-    };
-    return _this;
-  }
-
   return Todo;
 }(React.Component);
 
-ReactDOM.render(React.createElement(Todo, { name: "one", done: "false" }), document.getElementById('root'));
+var TodoList = function (_React$Component2) {
+  _inherits(TodoList, _React$Component2);
+
+  function TodoList(props) {
+    _classCallCheck(this, TodoList);
+
+    var _this2 = _possibleConstructorReturn(this, (TodoList.__proto__ || Object.getPrototypeOf(TodoList)).call(this, props));
+
+    _this2.state = {
+      todos: [{ id: 1, text: "Item 1", done: false }, { id: 2, text: "Item 2", done: false }, { id: 3, text: "Item 3", done: false }, { id: 4, text: "Item 4", done: false }]
+    };
+    _this2.newTodo = _this2.newTodo.bind(_this2);
+    return _this2;
+  }
+
+  _createClass(TodoList, [{
+    key: "newTodo",
+    value: function newTodo(event) {
+      event.preventDefault();
+
+      todos = this.state.todos;
+
+      todos.push({ _id: "" });
+
+      this.setState(function (state) {
+        return {
+          todos: todos
+        };
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var todoList = this.state.todos.map(function (todo) {
+        return React.createElement(Todo, { key: todo.id.toString(), id: todo.id, text: todo.text, done: todo.done });
+      });
+
+      return React.createElement(
+        React.Fragment,
+        null,
+        React.createElement(
+          "h1",
+          null,
+          "React Todo App"
+        ),
+        React.createElement(
+          "a",
+          { href: "#", onClick: this.newTodo },
+          "New Todo"
+        ),
+        todoList
+      );
+    }
+  }]);
+
+  return TodoList;
+}(React.Component);
+
+ReactDOM.render(React.createElement(TodoList, null), document.getElementById('root'));
